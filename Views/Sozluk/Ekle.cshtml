@@ -1,0 +1,182 @@
+﻿@model CustomIdentity.ViewModels.SozlukVM
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sozluk</title>
+</head>
+<body>
+
+    <!-- Üst Taraf Siyah Şerit / Mail Adressini gösteren ve çıkış yapmasını sağlayan yer -->
+    <header>
+        <div class='header'>
+            <div></div>
+            <div class='auth-container'>
+                <div class="auth-container">
+                    <span style="color: white; display: block; margin-top: 5px; margin-right: 5px;"> <b> @User.Identity.Name </b></span>
+                    <form id="logoutForm" asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" style="background-color: #dc3545; color: #fff; border: 1px solid #dc3545; padding: 4px 8px; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease;">
+                            Çıkış
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Üst Taraf Siyah Şerit / Mail Adressini gösteren ve çıkış yapmasını sağlayan yer -->
+    <!-- Ortadaki Sozluk Yazan Yer -->
+    <center>
+        <div class='center'>
+            <h1>Sözlük.</h1>
+            <form>
+                <input type='text' id='burayaz' placeholder='Buraya Yaz..' oninput='updateDictionary()'>
+                <button type='button' onclick='showAddWordModal()' style='background-color: #4CAF50;  height: 40px;  color: white;'>  <b>Ekle</b></button>
+            </form>
+        </div>
+    </center>
+    <!-- Ortadaki Sozluk Yazan Yer -->
+    <!-- Kelime Ekleme Yeri -->
+
+    <div id="modal" class="sozlukekle">
+        <div class="sozlukekle-content">
+            <span class="sozlukekle-close">&times;</span>
+            <form asp-controller="Sozluk" asp-action="Ekle" method="post">
+                <div>
+                    <label asp-for="Kelime">Kelime:</label>
+                    <input asp-for="Kelime" />
+                    <span asp-validation-for="Kelime"></span>
+                </div>
+                <div>
+                    <label asp-for="Cumle">Cümle:</label>
+                    <input asp-for="Cumle" />
+                    <span asp-validation-for="Cumle"></span>
+                </div>
+                <button type="submit" style="background-color: #4CAF50; color: white;">Ekle</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Kelime Ekleme Yeri -->
+    <!-- Tabloya Veri Gelen Kısım -->
+    <div style="display: flex; justify-content: center;">
+        <table style="width: 40%; margin-right: 10px;">
+            <thead>
+                <tr>
+                    <th colspan="2">Popüler</th>
+                </tr>
+                <tr>
+                    <th>Kelime</th>
+                    <th>Cümle</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model?.EklenmisSozcukler?.Count > 0)
+                {
+                    @for (int i = Model.EklenmisSozcukler.Count - 1; i >= Math.Max(0, Model.EklenmisSozcukler.Count - 5); i--)
+                    {
+                        var sozcuk = Model.EklenmisSozcukler[i];
+                        <tr>
+                            <td>@sozcuk.Kelime</td>
+                            <td>@sozcuk.Cumle</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <table style="width: 40%;">
+            <thead>
+                <tr>
+                    <th colspan="2">Son Arananlar</th>
+                </tr>
+                <tr>
+                    <th>Kelime</th>
+                    <th>Cümle</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model?.EklenmisSozcukler?.Count > 0)
+                {
+                    @for (int i = Model.EklenmisSozcukler.Count - 1; i >= Math.Max(0, Model.EklenmisSozcukler.Count - 5); i--)
+                    {
+                        var sozcuk = Model.EklenmisSozcukler[i];
+                        <tr>
+                            <td>@sozcuk.Kelime</td>
+                            <td>@sozcuk.Cumle</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- Tabloya Veri Gelen Kısım -->
+    <!-- Alt Siyah Yerin Değiştirme Yeri -->
+    <footer>
+        <div class='footer'>
+            <div class='footer-text'>Copyright 2024 © All rights Reserved by Enes Muratgül</div>
+        </div>
+    </footer>
+    <!-- Alt Siyah Yerin Değiştirme Yeri -->
+
+    <script>
+
+        function updateDictionary() {
+            var inputText = document.getElementById('burayaz').value;
+            var dictionaryHeading = document.querySelector('.center h1');
+            dictionaryHeading.innerText = inputText || 'Sozluk';
+        }
+
+        function showAddWordModal() {
+            var modal = document.getElementById('modal');
+            modal.style.display = 'block';
+        }
+
+        document.getElementsByClassName('sozlukekle-close')[0].addEventListener('click', function () {
+            var modal = document.getElementById('modal');
+            modal.style.display = 'none';
+        });
+
+        window.onclick = function (event) {
+            var modal = document.getElementById('modal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        var resultElement = document.createElement('p');
+        resultElement.classList.add('result');
+
+        document.getElementById('burayaz').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                var enteredText = this.value.trim();
+                if (enteredText !== '') {
+                    var tableRows = document.querySelectorAll('tbody tr');
+                    var found = false;
+                    tableRows.forEach(function (row) {
+                        var kelime = row.cells[0].textContent.trim();
+                        var cumle = row.cells[1].textContent.trim();
+                        if (kelime === enteredText || cumle.includes(enteredText)) {
+                            found = true;
+                            resultElement.textContent = 'Kelime: ' + kelime + ', Cümle: ' + cumle;
+                            return;
+                        }
+                    });
+                    if (!found) {
+                        resultElement.textContent = 'Girilen metne ait veri bulunamadı.';
+                    }
+                    var centerDiv = document.querySelector('.center');
+                    if (!centerDiv.querySelector('.result') && document.getElementById('burayaz').value.trim() !== '') {
+                        centerDiv.appendChild(resultElement);
+                    }
+                } else {
+                    var centerDiv = document.querySelector('.center');
+                    var existingResultElement = centerDiv.querySelector('.result');
+                    if (existingResultElement) {
+                        centerDiv.removeChild(existingResultElement);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

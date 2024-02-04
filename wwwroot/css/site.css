@@ -1,0 +1,242 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.center {
+    text-align: center;
+}
+
+h1 {
+    font-size: 200px;
+    margin-bottom: 10px;
+    margin-top: calc(10vh - 5px);
+}
+
+.header {
+    background-color: black;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Yukarýda olmasýný istiyorsanýz, bir z-index deðeri belirleyin */
+}
+
+input {
+    width: 13%;
+    padding: 8px;
+    margin-top: 5px;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: black;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer-text {
+    color: white;
+}
+
+.auth-container {
+    display: flex;
+}
+
+.auth-link {
+    position: relative;
+}
+
+    .auth-link a, .auth-link label {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        padding: 8px 12px;
+        border: 1px solid white;
+        border-radius: 4px;
+    }
+
+    .auth-link input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+
+.auth-container div {
+    margin-right: 20px;
+}
+
+table {
+    width: 100%;
+    max-width: 600px;
+    border-collapse: collapse;
+    margin: 20px auto;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+    max-width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+
+.add-word-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* Sayfanýn geniþliðine göre ayarlayabilirsiniz */
+    max-width: 400px; /* Maksimum geniþlik */
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-word-form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    text-align: center;
+}
+
+    .add-word-form input {
+        margin: 5px 0;
+        padding: 8px;
+        font-size: 16px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .add-word-form button {
+        margin-top: 10px;
+        padding: 10px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+.add-word-button {
+    display: none;
+}
+
+
+.sozlukekle {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.sozlukekle-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    max-width: 400px; /* Maksimum geniþlik ayarý */
+    width: 80%;
+    border-radius: 5px;
+}
+
+.sozlukekle-close {
+    color: red;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+    .sozlukekle-close:hover {
+        color: darkred;
+    }
+
+    .sozlukekle-close:focus {
+        outline: none;
+    }
+
+    .sozlukekle-close:hover,
+    .sozlukekle-close:focus {
+        text-decoration: none;
+    }
+
+/* Modal içindeki input ve label düzenlemeleri */
+.sozlukekle input[type="text"],
+.sozlukekle input[type="text"]:focus {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.sozlukekle label {
+    margin-top: 10px;
+    display: block;
+    font-weight: bold;
+}
+
+
+/**/
+
+
+/* Stil dosyasý */
+/* Form elemanlarý için genel stiller */
+
+

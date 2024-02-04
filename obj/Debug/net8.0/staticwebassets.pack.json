@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\enesm\\OneDrive\\Masaüstü\\calisma\\01022024\\SozlukProjeMVC\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\CustomIdentity.bundle.scp.css",
+      "PackagePath": "staticwebassets\\CustomIdentity.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\enesm\\OneDrive\\Masaüstü\\calisma\\01022024\\SozlukProjeMVC\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\enesm\\OneDrive\\Masaüstü\\calisma\\01022024\\SozlukProjeMVC\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\enesm\\OneDrive\\Masaüstü\\calisma\\01022024\\SozlukProjeMVC\\wwwroot\\js\\custom.js",
+      "PackagePath": "staticwebassets\\js\\custom.js"
+    },
+    {
+      "Id": "C:\\Users\\enesm\\OneDrive\\Masaüstü\\calisma\\01022024\\SozlukProjeMVC\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.CustomIdentity.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.CustomIdentity.props",
+      "PackagePath": "build\\CustomIdentity.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.CustomIdentity.props",
+      "PackagePath": "buildMultiTargeting\\CustomIdentity.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.CustomIdentity.props",
+      "PackagePath": "buildTransitive\\CustomIdentity.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

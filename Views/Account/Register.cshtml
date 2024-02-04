@@ -1,0 +1,107 @@
+﻿@using CustomIdentity.ViewModels;
+@model RegisterVM
+
+@{
+    ViewData["Title"] = "Register";
+}
+<!-- Yukardaki Siyah Alan  -->
+<header>
+  <div class='header'>
+    <div class='auth-container'> </div>
+  </div>
+</header>
+<!-- Yukardaki Siyah Alan  -->
+
+
+<!-- Ortadaki Sozluk Yazan Yer  -->
+<center>
+  <div class='center'>
+    <h1 id="sozluk">Sözlük.</h1>  
+  </div>
+</center>
+<!-- Ortadaki Sozluk Yazan Yer  -->
+
+<div class="row d-flex align-items-center justify-content-center">
+ <div class="col-md-6 card p-5" style="width: 225px;">
+      <form asp-action="Register" method="post">
+         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+             <div class="mb-4">
+               <label for="Name" class="form-label" style="width: 225px;">Adınız:</label> <!-- Form etiketlerinin boyutunu 225 piksel olarak ayarladık -->
+              <input type="text" id="Name" name="Name" class="form-control" style="width: 225px;" /> <!-- Giriş alanlarının boyutunu 225 piksel olarak ayarladık -->
+         <span asp-validation-for="Name" class="text-danger"></span>
+
+         </div>
+                <div class="mb-4">
+                    <label for="Email" class="form-label" style="width: 225px;">Email Adresi:</label>
+                    <input type="email" id="Email" name="Email" class="form-control" style="width: 225px;" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+         </div>
+
+         <div class="mb-4">
+                    <label for="Password" class="form-label" style="width: 225px;">Şifreniz:</label>
+                    <input type="password" id="Password" name="Password" class="form-control" style="width: 225px;" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+         </div>
+
+         <div class="mb-4">
+                    <label for="ConfirmPassword" class="form-label" style="width: 225px;">Şifreniz Tekrar:</label>
+                    <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" style="width: 225px;" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+         </div>
+
+         <div class="mb-4">
+                    <div class="col-12">
+                        <input type="submit" value="Kayıt Ol" class="btn btn-success btn-lg w-100" style="width: 245px;" /> <!-- Buton boyutunu 225 piksel olarak ayarladık -->
+                    </div>
+         </div>
+ </form>
+            <div class="row">
+                <div class="col-12 mb-2">
+                    <a asp-action="Login" class="text-decoration-none float-start">Hesabın Var Mı?</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Alt Siyah Yer  -->
+<footer>
+    <div class='footer'>
+        <div class='footer-text'>Copyright 2024 © All rights Reserved by Enes Muratgül</div>
+    </div>
+</footer>
+<!-- Alt Siyah Yer  -->
+
+ <style>
+        .card {
+            margin: auto;
+            float: none;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+        }
+
+        .text-info {
+            color: blue;
+        }
+ </style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script>
+    var sozluk = document.getElementById("sozluk");
+    var kelimeler = ["Kayıt Ol", "Sözlük."];
+    var index = 0;
+
+    function degistirKelimeler() {
+        sozluk.innerHTML = kelimeler[index];
+        index = (index + 1) % kelimeler.length;
+    }
+
+    setInterval(degistirKelimeler, 1000); // Her saniyede bir kelimeyi değiştir
+
+</script>

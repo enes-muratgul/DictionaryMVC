@@ -1,0 +1,363 @@
+﻿@using CustomIdentity.ViewModels;
+
+@model LoginVM
+
+@{
+    ViewData["Title"] = "Login";
+    List<Sozluk> eklenmisSozcukler = ViewBag.EklenmisSozcukler;
+}
+<!-- Üst Taraf Kayit Ol / Giris Yap (Komutları)  -->
+
+<div class='header'>
+    <div></div>
+    <div class='auth-container'>
+        <div class='auth-link'>
+            <input type='checkbox' id='acButton'>
+            <label for='login-checkbox'>Giriş Yap</label>
+        </div>
+        <div class='auth-link'>
+            <input type='checkbox' id='register-checkbox' onclick='kayit_yonlendir()'>
+            <label for='register-checkbox'>Kayıt Ol</label>
+        </div>
+    </div>
+</div>
+
+<!-- Ortadaki Sozluk Yazan Yer  -->
+<div class='center'>
+    <h1>Sözlük.</h1>
+    <form>
+        <input type='text' id='burayaz' placeholder='Buraya Yaz..' oninput='updateDictionary()'>
+    </form>
+
+</div>
+
+
+@{
+    var veriler = ViewBag.SozlukVerileri as List<SozlukVM>; // ViewBag üzerinden SozlukVM listesini alıyoruz
+}
+
+@if (eklenmisSozcukler != null && eklenmisSozcukler.Count > 0)
+{
+    @foreach (var sozcuk in eklenmisSozcukler)
+    {
+        <p>@sozcuk.Cumle</p>
+    }
+}
+else
+{
+    <p></p>
+}
+
+<div style="display: flex; justify-content: center;">
+    <table id="popularWordsTable" style="width: 40%; margin-right: 10px;">
+        <thead>
+            <tr>
+                <th colspan="2">Popüler</th>
+            </tr>
+            <tr>
+                <th>Kelime</th>
+                <th>Cümle</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (veriler != null && veriler.Count > 0)
+            {
+                for (int i = veriler.Count - 1; i >= Math.Max(0, veriler.Count - 5); i--)
+                {
+                    var sozcuk = veriler[i];
+                    <tr>
+                        <td>@sozcuk.Kelime</td>
+                        <td>@sozcuk.Cumle</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <table id="recentlySearchedTable" style="width: 40%;">
+        <thead>
+            <tr>
+                <th colspan="2">Son Arananlar</th>
+            </tr>
+            <tr>
+                <th>Kelime</th>
+                <th>Cümle</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (veriler != null && veriler.Count > 0)
+            {
+                for (int i = veriler.Count - 1; i >= Math.Max(0, veriler.Count - 5); i--)
+                {
+                    var sozcuk = veriler[i];
+                    <tr>
+                        <td>@sozcuk.Kelime</td>
+                        <td>@sozcuk.Cumle</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Alt Siyah Yerin Değiştirme Yeri -->
+
+<div class='footer'>
+    <div class='footer-text'>Copyright 2024 © All rights Reserved by Enes Muratgül</div>
+</div>
+
+<div class="overlay" id="overlay" style="display: none;"></div>
+
+<div class="row d-flex align-items-center justify-content-center" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2;">
+    <div class="col-md-12 col-lg-10 card p-3" id="loginForm" style="display:none; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+        <h2 class="text-center text-info">Giriş Yap</h2>
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Mail:</label>
+                <input type="text" id="username" name="username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Şifre:</label>
+                <input type="password" id="password" name="password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Giriş</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    <script>
+
+        var formGorunurlugu = false;
+
+        document.getElementById('acButton').addEventListener('click', function () {
+            if (!formGorunurlugu) {
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('overlay').style.display = 'block';
+                formGorunurlugu = true;
+            } else {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('overlay').style.display = 'none';
+                formGorunurlugu = false;
+            }
+        });
+
+        function kayit_yonlendir() {
+            window.location.href = '/Account/Register';
+        }
+
+
+        document.getElementById('burayaz').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                var enteredText = this.value.trim();
+                if (enteredText !== '') {
+                    var tableRows = document.querySelectorAll('tbody tr');
+                    var found = false;
+                    var resultElement = document.querySelector('.result'); 
+                    if (!resultElement) {
+                        resultElement = document.createElement('p');
+                        resultElement.classList.add('result'); 
+                        var centerDiv = document.querySelector('.center');
+                        centerDiv.appendChild(resultElement);
+                    }
+                    tableRows.forEach(function (row) {
+                        var kelime = row.cells[0].textContent.trim();
+                        var cumle = row.cells[1].textContent.trim();
+                        if (kelime === enteredText || cumle.includes(enteredText)) {
+                            found = true;
+                            resultElement.textContent = 'Kelime: ' + kelime + ', Cümle: ' + cumle;
+                            return;
+                        }
+                    });
+                    if (!found) {
+                        resultElement.textContent = 'Girilen metne ait veri bulunamadı.';
+                    }
+                } else {
+                    var centerDiv = document.querySelector('.center');
+                    var existingResultElement = centerDiv.querySelector('.result');
+                    if (existingResultElement) {
+                        centerDiv.removeChild(existingResultElement);
+                    }
+                }
+            }
+        });
+
+
+
+
+
+        fetch('/Sozluk')
+            .then(response => response.json())
+            .then(data => {
+
+                document.querySelector('#popularWordsTable tbody').innerHTML = '';
+                document.querySelector('#recentlySearchedTable tbody').innerHTML = '';
+
+           
+                data.reverse();
+
+             
+                const limitedData = data.slice(0, 5);
+
+         
+                limitedData.forEach(sozcuk => {
+                    const popularWordsTableRow = `<tr><td>${sozcuk.kelime}</td><td>${sozcuk.cumle}</td></tr>`;
+                    const recentlySearchedTableRow = `<tr><td>${sozcuk.kelime}</td><td>${sozcuk.cumle}</td></tr>`;
+
+                    document.querySelector('#popularWordsTable tbody').innerHTML += popularWordsTableRow;
+                    document.querySelector('#recentlySearchedTable tbody').innerHTML += recentlySearchedTableRow;
+                });
+            })
+            .catch(error => console.error('Hata:', error));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+    </script>
+    <style>
+        .text-center {
+            text-align: center;
+        }
+
+        #password.form-control {
+            width: 150px;
+            margin-top: 30px;
+        }
+
+        #password.form-control {
+            width: 155px;
+            margin-top: 20px; 
+        }
+
+        #username.form-control {
+            width: 155px; 
+        }
+
+ 
+        .text-center button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+            .text-center button[type="submit"]:hover {
+                background-color: #218838; 
+            }
+
+
+
+  
+        .registration-card {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            width: 100%;
+        }
+
+
+        .login-link {
+            text-decoration: none;
+        }
+
+
+        .btn {
+            cursor: pointer;
+        }
+
+        .register-button {
+            float: right;
+        }
+
+   
+        .text-center {
+            text-align: center;
+        }
+
+
+
+   
+        .text-danger {
+            color: #dc3545;
+        }
+    </style>
+}
